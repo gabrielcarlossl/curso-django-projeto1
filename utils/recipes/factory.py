@@ -3,7 +3,6 @@ from random import randint
 
 from faker import Faker
 
-
 def rand_ratio():
     return randint(840, 900), randint(473, 573)
 
