@@ -16,7 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.static import static
 
+#importar configurações la do settings.py
+from django.conf import settings
 
 # Toda URL precisa tambem no mínimo de uma view.py
 # Toda função view.py recebe um um argumento "request" pois todo url recebe requisições ou faz, por exemplo um url no navegador faz um 'get'
@@ -25,3 +28,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('recipes.urls'))
 ]
+
+# configuração para mostrar ao django onde estão as imagens das capas das receitas
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
