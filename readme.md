@@ -7,3 +7,4 @@ It's a monolithic project where you can post recipes
 4. Check if Django-admin is installed: ```django-admin --version```
 5. Install dependencies ```pip install -r requirements.txt```
 6. Run server: ``` python manage.py runserver```
+7. Open your browser: ```http://127.0.0.1:8000/```
