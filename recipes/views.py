@@ -4,9 +4,10 @@ from .models import Recipe
 
 def home(request):
     
-    # Exibindo as receitas por ordem decrescente
+    # Exibindo as receitas por ordem decrescente que estão publicadas
     
-    recipes = Recipe.objects.all().order_by('-id')
+    
+    recipes = Recipe.objects.filter(is_published=True).order_by('-id')
     
     # Usando o faker para gerar 10 receitas
     # return render(request, 'recipes/pages/home.html', context={
@@ -22,9 +23,12 @@ def category(request, category_id):
     
     # Exibindo receitas que tem a mesma categoria
     
-    recipes = Recipe.objects.filter(category__id=category_id).order_by('-id')
+    recipes = Recipe.objects.filter(
+            category__id=category_id,
+            is_published=True
+        ).order_by('-id')
     
-    return render(request, 'recipes/pages/home.html', context={
+    return render(request, 'recipes/pages/category.html', context={
         'recipes': recipes
     })
 
