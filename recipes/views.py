@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_list_or_404
+from django.shortcuts import render, get_list_or_404, get_object_or_404
 from utils.recipes.factory import make_recipe
 from .models import Recipe
 from django.http import HttpResponse
@@ -59,20 +59,26 @@ def category(request, category_id):
 
 def recipe(request, id):
     # recipe = Recipe.objects.get(id=id)
-    title =  Recipe.objects.get(id=id).title
+    # title =  Recipe.objects.get(id=id).title
     
-    recipe = Recipe.objects.filter(
-        pk=id,
-        is_published=True
-    ).order_by('-id').first()
+    # recipe = Recipe.objects.filter(
+    #     pk=id,
+    #     is_published=True
+    # ).order_by('-id').first()
     
     # return render(request, 'recipes/pages/recipe-view.html', context={
     #     'recipe': make_recipe(),
     #     'is_detail_page': True
     # })
     
+    ## Retorna erro 404 se não encontrar o objeto
+    recipe = get_object_or_404(
+        Recipe,
+        pk=id,
+        is_published=True
+    )
+    
     return render(request, 'recipes/pages/recipe-view.html', context={
         'recipe': recipe,
-        'is_detail_page': True,
-        'title': f'{title}' 
+        'is_detail_page': True
     })
