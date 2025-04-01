@@ -4,6 +4,7 @@ from .models import Recipe
 from django.http import HttpResponse
 from django.http import Http404
 
+# Exibe todas as receitas publicadas
 def home(request):
     
     # Exibindo as receitas por ordem decrescente que estão publicadas
@@ -20,7 +21,7 @@ def home(request):
         'recipes': recipes
     })
     
-    
+# Exibe lista de receitas por categoria
 def category(request, category_id):
     
     # Exibindo receitas que tem a mesma categoria
@@ -57,7 +58,10 @@ def category(request, category_id):
         'title': f'{recipes[0].category.name} - Category | ' 
     })
 
+
+# Exibindo uma receita específica
 def recipe(request, id):
+    
     # recipe = Recipe.objects.get(id=id)
     # title =  Recipe.objects.get(id=id).title
     
