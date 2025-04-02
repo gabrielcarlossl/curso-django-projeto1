@@ -25,7 +25,10 @@ SECRET_KEY = 'django-insecure-xigr(gs^q^nf@_!%%6l@8aczt)c@*1=s3$*)8$9kp*12-x!+*2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS: list[str] = []
+ALLOWED_HOSTS: list[str] = [
+    'testserver',
+    '127.0.0.1'
+]
 
 
 # Application definition

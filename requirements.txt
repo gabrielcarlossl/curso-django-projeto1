@@ -2,3 +2,4 @@ Faker
 Pillow
 pytest
 pytest-django
+django
