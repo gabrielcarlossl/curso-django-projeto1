@@ -3,3 +3,5 @@ Pillow
 pytest
 pytest-django
 django
+coverage
+parameterized

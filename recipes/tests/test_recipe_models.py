@@ -1,12 +1,31 @@
-from .test_recipe_base import RecipeTestBase
+from .test_recipe_base import RecipeTestBase, Recipe
 from django.core.exceptions import ValidationError
 from parameterized import parameterized
 
 class RecipeModelTest(RecipeTestBase):
-  def setUp(self):
+  def setUp(self) -> None:
     self.recipe = self.make_recipe()
-    
+  
     return super().setUp()
+  
+  def make_recipe_no_defaults(self):
+    recipe = Recipe(
+      category=self.make_category(name='Test Default Category'),
+      author=self.make_author(username='newuser'),
+      title='Test Recipe Title',
+      description='Test Recipe Description',
+      preparation_time_unit='minutes',
+      servings_unit='porções',
+      preparation_time=10,
+      preparation_steps='recipe preparation steps',
+      slug='test-recipe-title',
+      servings=5,
+      cover='test-recipe-cover.jpg'
+    )
+
+    recipe.full_clean()
+    recipe.save()
+    return recipe
     
   @parameterized.expand([
       ('title', 65),
@@ -19,3 +38,22 @@ class RecipeModelTest(RecipeTestBase):
     setattr(self.recipe, field, 'A' * (max_length +  1))
     with self.assertRaises(ValidationError):
       self.recipe.full_clean() 
+      
+  def test_recipe_preparation_steps_is_html_is_false_by_default(self):
+    recipe = self.make_recipe_no_defaults()
+    self.assertFalse(recipe.preparation_steps_is_html, msg=' Recipe preparation_steps_is_html is not False')
+    
+  def test_recipe_is_published_is_false_by_default(self):
+    recipe = self.make_recipe_no_defaults()
+    self.assertFalse(recipe.is_published, msg=' Recipe is_published is not False')
+    
+  def test_recipe_String_representation(self):
+    needed = 'Testing Representation'
+    self.recipe.title = 'Testing Representation'
+    self.recipe.full_clean()
+    self.recipe.save()
+    self.assertEqual(
+        str(self.recipe),
+        needed,
+        msg=f'Recipe string representation must be "{needed}" but "{str(self.recipe)}" was received'
+      )
